@@ -3,7 +3,7 @@ import '../css/box.css'
 import io from 'socket.io-client'
 
 export default function Chat() {
-    const socket = io.connect('http://localhost:3006')
+    const socket = io.connect('http://localhost:3007')
     const sendSMSHandler = () => {
         console.log(document.getElementById('inputText').value)
         var newItem = document.createElement('div');
@@ -13,6 +13,13 @@ export default function Chat() {
         socket.emit('message',document.getElementById('inputText').value);
         document.getElementById('inputText').value = ''
     }
+    socket.on('incoming-message',data=>{
+        var newItem = document.createElement('div');
+        newItem.className += " bubble bubble-dark";
+        newItem.textContent = data;
+        document.querySelector(".message.message-left").appendChild(newItem);
+        
+    })
     return (
         <div>
             <div className="chat-box">
